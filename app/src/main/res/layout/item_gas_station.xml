@@ -1,21 +1,29 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:padding="8dp">
 
     <TextView
         android:id="@+id/text_gas_station_name"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="wrap_content"
         android:textAppearance="?android:textAppearanceSmall"
-        android:textColor="@android:color/black"/>
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        android:gravity="start"
+        android:paddingEnd="8dp"/>
 
     <TextView
         android:id="@+id/text_gas_station_price"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:textAppearance="?android:textAppearanceSmall"
-        android:textColor="@android:color/black"/>
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        android:gravity="end"
+        android:paddingStart="8dp"/>
 
 </LinearLayout>

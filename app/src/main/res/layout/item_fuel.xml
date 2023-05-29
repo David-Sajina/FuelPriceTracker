@@ -12,15 +12,16 @@
         android:textAppearance="?android:textAppearanceMedium"
         android:textColor="@android:color/black"
         android:textStyle="bold"
+        android:textSize="24sp"
         android:layout_marginBottom="8dp"/>
 
-    <LinearLayout
-        android:id="@+id/linear_layout_gas_stations"
+    <TableLayout
+        android:id="@+id/table_gas_stations"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <!-- Gas station items will be added dynamically here -->
-    </LinearLayout>
-
+        android:divider="@android:color/darker_gray"
+        android:showDividers="middle"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"/>
 
 </LinearLayout>

@@ -65,7 +65,7 @@ public class FuelAdapter extends RecyclerView.Adapter<FuelAdapter.ViewHolder> {
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             textFuelName = itemView.findViewById(R.id.text_fuel_name);
-            gasStationsLayout = itemView.findViewById(R.id.linear_layout_gas_stations);
+            gasStationsLayout = itemView.findViewById(R.id.table_gas_stations);
 
         }
     }
