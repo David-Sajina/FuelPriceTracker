@@ -3,6 +3,8 @@ package com.example.fueltracker;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,6 +26,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerViewFuel;
     private FuelAdapter fuelAdapter;
+    private LinearLayout mainContentLayout;
+    private View loadingScreen;
 
     public class Fuel {
         private String fuelName;
@@ -61,21 +65,32 @@ public class MainActivity extends AppCompatActivity {
     }
     private class FuelDataFetchTask extends AsyncTask<Void, Void, List<Fuel>> {
         @Override
+        protected void onPreExecute() {
+            loadingScreen.setVisibility(View.VISIBLE);
+        }
+        @Override
         protected List<Fuel> doInBackground(Void... voids) {
             return getFuelDataFromApi();
         }
 
         @Override
         protected void onPostExecute(List<Fuel> fuelList) {
+
+            loadingScreen.setVisibility(View.GONE);
+
             Log.d("MainActivity", "Fuel List: " + fuelList);
             fuelAdapter.setFuelList(fuelList);
+
+            mainContentLayout.setVisibility(View.VISIBLE);
         }
     }
 
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mainContentLayout = findViewById(R.id.main_content);
+        loadingScreen = findViewById(R.id.layout_loading);
 
         recyclerViewFuel = findViewById(R.id.recycler_view_fuel);
         recyclerViewFuel.setLayoutManager(new LinearLayoutManager(this));
@@ -87,25 +102,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    // Your method to fetch the fuel data from the API
     private List<Fuel> getFuelDataFromApi() {
         List<Fuel> fuelList = new ArrayList<>();
 
         try {
-            // Create a URL object with the API endpoint
             URL url = new URL("https://fuel-service.onrender.com/");
 
-            // Open a connection to the URL
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.connect();
 
-            // Check if the response code is successful
             int responseCode = connection.getResponseCode();
             Log.d("MainActivity", "API Response Code: " + responseCode);
 
             if (responseCode == HttpURLConnection.HTTP_OK) {
-                // Read the response from the API
                 InputStream inputStream = connection.getInputStream();
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
                 StringBuilder response = new StringBuilder();
@@ -115,7 +125,6 @@ public class MainActivity extends AppCompatActivity {
                 }
                 bufferedReader.close();
 
-                // Parse the JSON response
                 Log.d("MainActivity", "API Response: " + response.toString());
 
                 JSONArray fuelDataArray = new JSONArray(response.toString());
@@ -138,8 +147,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("MainActivity", "Parsed Fuel List: " + fuelList);
                 }
             } else {
-                // Handle the error response
-                Log.e("MainActivity", "API Error Response: " + responseCode);
+                Log.e("MainActivity", "API Error Res: " + responseCode);
             }
 
             // Disconnect the connection
